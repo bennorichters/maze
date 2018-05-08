@@ -52,10 +52,12 @@ final class Drawing {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		int prime = 31;
 		int result = 1;
-		result = prime * result + ((getLines() == null) ? 0 : getLines().hashCode());
-		result = prime * result + ((getArcs() == null) ? 0 : getArcs().hashCode());
+		
+		result = prime * result + getLines().hashCode();
+		result = prime * result + getArcs().hashCode();
+		
 		return result;
 	}
 
@@ -68,6 +70,7 @@ final class Drawing {
 		if (!(obj instanceof Drawing)) {
 			return false;
 		}
+		
 		Drawing other = (Drawing) obj;
 		return getLines().equals(other.getLines()) && getArcs().equals(other.getArcs());
 	}
