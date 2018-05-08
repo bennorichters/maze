@@ -26,7 +26,7 @@ public class DrawerTest {
 
 	private Drawing drawReference(Maze maze) {
 		Drawing drawing = new Drawing();
-		new OldAndUglyButWorkingDrawerReference(25, new DrawingMaker(drawing)).drawMaze(maze);
+		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawing)).drawMaze(maze);
 
 		return drawing;
 	}

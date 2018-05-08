@@ -10,14 +10,14 @@ import org.bnor.maze.ArcDirection;
 import org.bnor.maze.CircleCoordinate;
 import org.bnor.maze.Maze;
 
-	public class OldAndUglyButWorkingDrawerReference {
+	public class OldAndUglyButWorkingReferenceDrawer {
 
 	private static final Comparator<Fraction> FRAC_COMP = (f1, f2) -> (f1.subtract(f2).getNumerator().compareTo(BigInteger.ZERO));
 
 	private final int distance;
 	private final Canvas canvas;
 
-	public OldAndUglyButWorkingDrawerReference(int distance, Canvas canvas) {
+	public OldAndUglyButWorkingReferenceDrawer(int distance, Canvas canvas) {
 		this.distance = distance;
 		this.canvas = canvas;
 	}
