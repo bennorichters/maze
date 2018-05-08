@@ -2,33 +2,52 @@ package org.bnor.maze.visual;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.bnor.euler.Fraction;
+import org.bnor.maze.CircleCoordinate;
 import org.bnor.maze.Maze;
 import org.bnor.maze.MazeJson;
+import org.bnor.maze.MazeSolver;
 import org.junit.Test;
 
 @SuppressWarnings("static-method")
 public class DrawerTest {
 
 	@Test
-	public void one() {
+	public void drawSimpleMaze() {
 		Maze maze = MazeJson.deserialize(MazeJsonReader.read("maze_3_1.json"));
 
-		assertEquals(drawReference(maze), drawActual(maze));
+		assertEquals(drawReferenceMaze(maze), drawActualMaze(maze));
 	}
-
-	private Drawing drawActual(Maze maze) {
-		Drawing drawing = new Drawing();
-		new Drawer(25, new DrawingMaker(drawing)).drawMaze(maze);
-
-		return drawing;
-	}
-
-	private Drawing drawReference(Maze maze) {
+	
+	private Drawing drawReferenceMaze(Maze maze) {
 		Drawing drawing = new Drawing();
 		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawing)).drawMaze(maze);
-
+	
 		return drawing;
+	}
+
+	private Drawing drawActualMaze(Maze maze) {
+		Drawing drawing = new Drawing();
+		new Drawer(25, new DrawingMaker(drawing)).drawMaze(maze);
+	
+		return drawing;
+	}
+
+	@Test
+	public void drawSolution() {
+		Maze maze = MazeJson.deserialize(MazeJsonReader.read("maze_3_1.json"));
+
+		List<CircleCoordinate> path = new MazeSolver(maze).maxPaths().iterator().next();
+		
+		Drawing drawingReference = new Drawing();
+		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference)).drawPath(path);
+
+		Drawing drawingActual = new Drawing();
+		new Drawer(25, new DrawingMaker(drawingActual)).drawPath(path);
+		
+		assertEquals(drawingReference, drawingActual);
 	}
 
 	private static final class DrawingMaker implements Canvas {
