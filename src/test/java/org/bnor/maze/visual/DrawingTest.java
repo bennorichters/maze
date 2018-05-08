@@ -21,9 +21,6 @@ public class DrawingTest {
 		Drawing d2 = new Drawing();
 		d2.addArc(arc(100, 10, 25));
 		
-		System.out.println(d1);
-		System.out.println(d2);
-		
 		assertTrue(d1.equals(d2));
 	}
 	
