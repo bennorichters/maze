@@ -35,7 +35,7 @@ final class Circle {
 		int prime = 31;
 		int result = 1;
 		
-		result = prime * result + ((center == null) ? 0 : center.hashCode());
+		result = prime * result + center.hashCode();
 		result = prime * result + radius;
 		
 		return result;
