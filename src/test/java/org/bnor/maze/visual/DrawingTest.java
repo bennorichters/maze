@@ -3,7 +3,6 @@ package org.bnor.maze.visual;
 import static org.junit.Assert.assertTrue;
 
 import org.bnor.euler.Fraction;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -37,7 +36,19 @@ public class DrawingTest {
 	}
 	
 	@Test
-	@Ignore
+	public void simple_circles() {
+		Drawing d1 = new Drawing();
+		d1.addCircle(circle(100, 45, 50));
+		d1.addCircle(circle(110, 45, 50));
+
+		Drawing d2 = new Drawing();
+		d2.addCircle(circle(110, 45, 50));
+		d2.addCircle(circle(100, 45, 50));
+		
+		assertTrue(d1.equals(d2));
+	}
+
+	@Test
 	public void equalsContract() {
 	    EqualsVerifier.forClass(Drawing.class)
 	    		.suppress(Warning.NULL_FIELDS)
@@ -47,8 +58,12 @@ public class DrawingTest {
 	private static Line line(int radius, int angle, int endRadius) {
 		return Line.create(PolarCoordinate.create(radius, Fraction.valueOf(angle)), endRadius);
 	}
-	
+
 	private static Arc arc(int radius, int startAngle, int span) {
 		return Arc.create(PolarCoordinate.create(radius, Fraction.valueOf(startAngle)), Fraction.valueOf(span));
+	}
+	
+	private static Circle circle(int radiusCenter, int angleCenter, int radius) {
+		return Circle.create(PolarCoordinate.create(radiusCenter, Fraction.valueOf(angleCenter)), radius);
 	}
 }
