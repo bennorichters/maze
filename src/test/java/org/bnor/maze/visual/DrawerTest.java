@@ -3,6 +3,7 @@ package org.bnor.maze.visual;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.bnor.euler.Fraction;
 import org.bnor.maze.CircleCoordinate;
@@ -22,22 +23,8 @@ public class DrawerTest {
 
 	private void drawMazeForResource(String resource) {
 		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
-		
-		assertEquals(drawReferenceMaze(maze), drawActualMaze(maze));
-	}
-	
-	private Drawing drawReferenceMaze(Maze maze) {
-		Drawing drawing = new Drawing();
-		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawing)).drawMaze(maze);
-	
-		return drawing;
-	}
 
-	private Drawing drawActualMaze(Maze maze) {
-		Drawing drawing = new Drawing();
-		new Drawer(25, new DrawingMaker(drawing)).drawMaze(maze);
-	
-		return drawing;
+		referenceEqualsActual(s -> s.drawMaze(maze));
 	}
 
 	@Test
@@ -48,27 +35,26 @@ public class DrawerTest {
 
 	private void drawPathForResource(String resource) {
 		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
-
 		List<CircleCoordinate> path = new MazeSolver(maze).maxPaths().iterator().next();
 		
-		Drawing drawingReference = new Drawing();
-		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference)).drawPath(path);
-
-		Drawing drawingActual = new Drawing();
-		new Drawer(25, new DrawingMaker(drawingActual)).drawPath(path);
-		
-		assertEquals(drawingReference, drawingActual);
+		referenceEqualsActual(s -> s.drawPath(path));
 	}
 
 	@Test
 	public void drawCircles() {
 		CircleCoordinate center = CircleCoordinate.create(4, 2);
 		
+		referenceEqualsActual(s -> s.drawDotOnPath(center));
+	}
+	
+	private void referenceEqualsActual(Consumer<Drawer> consumer) {
 		Drawing drawingReference = new Drawing();
-		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference)).drawDotOnPath(center);
+		Drawer  drawerReference = new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference));
+		consumer.accept(drawerReference);
 		
 		Drawing drawingActual = new Drawing();
-		new Drawer(25, new DrawingMaker(drawingActual)).drawDotOnPath(center);
+		Drawer  drawerActual = new DrawerOnCanvas(25, new DrawingMaker(drawingActual));
+		consumer.accept(drawerActual);
 		
 		assertEquals(drawingReference, drawingActual);
 	}

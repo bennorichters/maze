@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import org.bnor.maze.visual.Drawer;
+import org.bnor.maze.visual.DrawerOnCanvas;
 import org.bnor.maze.visual.GraphicsCanvas;
 
 public final class App {
@@ -40,7 +41,7 @@ public final class App {
 
 		graphics.setPaint(Color.BLACK);
 
-		Drawer drawer = new Drawer(distance, new GraphicsCanvas(size / 2, graphics));
+		Drawer drawer = new DrawerOnCanvas(distance, new GraphicsCanvas(size / 2, graphics));
 		drawer.drawMaze(maze);
 		System.out.println("Draw maze finished");
 

@@ -1,7 +1,5 @@
 package org.bnor.maze.visual;
 
-import java.math.BigInteger;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,14 +8,12 @@ import org.bnor.maze.ArcDirection;
 import org.bnor.maze.CircleCoordinate;
 import org.bnor.maze.Maze;
 
-	public class OldAndUglyButWorkingReferenceDrawer implements Drawer {
-
-	private static final Comparator<Fraction> FRAC_COMP = (f1, f2) -> (f1.subtract(f2).getNumerator().compareTo(BigInteger.ZERO));
+public final class DrawerOnCanvas implements Drawer {
 
 	private final int distance;
 	private final Canvas canvas;
 
-	public OldAndUglyButWorkingReferenceDrawer(int distance, Canvas canvas) {
+	public DrawerOnCanvas(int distance, Canvas canvas) {
 		this.distance = distance;
 		this.canvas = canvas;
 	}
@@ -70,7 +66,7 @@ import org.bnor.maze.Maze;
 					}
 
 					if (arcDirection == null) {
-						arcDirection = FRAC_COMP.compare(firstAngle, lastAngle) < 0 ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
+						arcDirection = firstAngle.compareTo(lastAngle) < 0 ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
 					}
 
 					arcPath(circle, firstAngle, lastAngle, arcDirection);
@@ -112,7 +108,7 @@ import org.bnor.maze.Maze;
 			Fraction halfStep = CircleCoordinate.calcAngleStep(next.getCircle()).divide(Fraction.valueOf(2));
 			Fraction to = next.getAngle().add(halfStep);
 
-			ArcDirection arcDirection = FRAC_COMP.compare(fromAngle, to) < 0 ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
+			ArcDirection arcDirection = fromAngle.compareTo(to) < 0 ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
 
 			arcPath(next.getCircle(), fromAngle, to, arcDirection);
 		}
@@ -132,7 +128,7 @@ import org.bnor.maze.Maze;
 		Fraction startAngle = (arcDirection == ArcDirection.CLOCKWISE) ? fromAngle : toAngle;
 		Fraction endAngle = (arcDirection == ArcDirection.CLOCKWISE) ? toAngle : fromAngle;
 
-		int compare = FRAC_COMP.compare(endAngle, startAngle);
+		int compare = endAngle.compareTo(startAngle);
 		if (compare == 0) {
 			return;
 		}
@@ -188,8 +184,8 @@ import org.bnor.maze.Maze;
 		Fraction toAngle = to.getAngle();
 		Fraction diff = toAngle.subtract(fromAngle);
 
-		Fraction halfCircle = Fraction.valueOf(180 * (FRAC_COMP.compare(diff, Fraction.ZERO) < 0 ? -1 : 1));
-		return (FRAC_COMP.compare(diff, halfCircle) < 0) ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
+		Fraction halfCircle = Fraction.valueOf(180 * (diff.compareTo(Fraction.ZERO) < 0 ? -1 : 1));
+		return (diff.compareTo(halfCircle) < 0) ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
 	}
 
 	private static Fraction angleInBiggestCircle(CircleCoordinate from, CircleCoordinate to) {
