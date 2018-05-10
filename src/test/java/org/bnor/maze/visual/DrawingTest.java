@@ -37,13 +37,16 @@ public class DrawingTest {
 	
 	@Test
 	public void simple_circles() {
+		Circle circle1 = circle(100, 45, 50);
+		Circle circle2 = circle(110, 45, 50);
+
 		Drawing d1 = new Drawing();
-		d1.addCircle(circle(100, 45, 50));
-		d1.addCircle(circle(110, 45, 50));
+		d1.addCircle(circle1);
+		d1.addCircle(circle2);
 
 		Drawing d2 = new Drawing();
-		d2.addCircle(circle(110, 45, 50));
-		d2.addCircle(circle(100, 45, 50));
+		d2.addCircle(circle2);
+		d2.addCircle(circle1);
 		
 		assertTrue(d1.equals(d2));
 	}

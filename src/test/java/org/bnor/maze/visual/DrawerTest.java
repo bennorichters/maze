@@ -50,6 +50,19 @@ public class DrawerTest {
 		assertEquals(drawingReference, drawingActual);
 	}
 
+	@Test
+	public void drawCircles() {
+		CircleCoordinate center = CircleCoordinate.create(4, 2);
+		
+		Drawing drawingReference = new Drawing();
+		new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference)).drawDotOnPath(center);
+		
+		Drawing drawingActual = new Drawing();
+		new Drawer(25, new DrawingMaker(drawingActual)).drawDotOnPath(center);
+		
+		assertEquals(drawingReference, drawingActual);
+	}
+	
 	private static final class DrawingMaker implements Canvas {
 
 		final Drawing drawing;
