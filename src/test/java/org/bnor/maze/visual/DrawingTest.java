@@ -43,6 +43,7 @@ public class DrawingTest {
 		Drawing d1 = new Drawing();
 		d1.addCircle(circle1);
 		d1.addCircle(circle2);
+		d1.addCircle(circle1);
 
 		Drawing d2 = new Drawing();
 		d2.addCircle(circle2);
