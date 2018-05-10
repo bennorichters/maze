@@ -15,9 +15,14 @@ import org.junit.Test;
 public class DrawerTest {
 
 	@Test
-	public void drawSimpleMaze() {
-		Maze maze = MazeJson.deserialize(MazeJsonReader.read("maze_3_1.json"));
+	public void drawMazes() {
+		drawMazeForResource("maze_3_1.json");
+		drawMazeForResource("maze_40_1.json");
+	}
 
+	private void drawMazeForResource(String resource) {
+		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
+		
 		assertEquals(drawReferenceMaze(maze), drawActualMaze(maze));
 	}
 	
@@ -36,8 +41,13 @@ public class DrawerTest {
 	}
 
 	@Test
-	public void drawSolution() {
-		Maze maze = MazeJson.deserialize(MazeJsonReader.read("maze_3_1.json"));
+	public void drawPaths() {
+		drawPathForResource("maze_3_1.json");
+		drawPathForResource("maze_40_1.json");
+	}
+
+	private void drawPathForResource(String resource) {
+		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
 
 		List<CircleCoordinate> path = new MazeSolver(maze).maxPaths().iterator().next();
 		
