@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 
 final class Drawing {
 
-	private final Set<DrawElement<Line>> lines = new HashSet<>();
-	private final Set<DrawElement<Arc>> arcs = new HashSet<>();
+	private final Set<Mergeable<Line>> lines = new HashSet<>();
+	private final Set<Mergeable<Arc>> arcs = new HashSet<>();
+	private final Set<Circle> circles = new HashSet<>();
 	
 	void addLine(Line toAdd) {
 		merge(lines, toAdd);
@@ -17,9 +18,13 @@ final class Drawing {
 		merge(arcs, toAdd);
 	}
 
-	private static <T> void merge(Set<DrawElement<T>> elements, DrawElement<T> toAdd) {
-		DrawElement<T> candidate = toAdd;
-		DrawElement<T> toMerge = findElementToMerge(elements, candidate);
+	void addCircle(Circle toAdd) {
+		circles.add(toAdd);
+	}
+	
+	private static <T> void merge(Set<Mergeable<T>> elements, Mergeable<T> toAdd) {
+		Mergeable<T> candidate = toAdd;
+		Mergeable<T> toMerge = findElementToMerge(elements, candidate);
 		while (toMerge != null) {
 			elements.remove(toMerge);
 			candidate = candidate.merge(toMerge) ;
@@ -28,8 +33,8 @@ final class Drawing {
 		elements.add(candidate);
 	}
 
-	private static <T> DrawElement<T> findElementToMerge(Set<DrawElement<T>> elements, DrawElement<T> toAdd) {
-		for (DrawElement<T> element : elements) {
+	private static <T> Mergeable<T> findElementToMerge(Set<Mergeable<T>> elements, Mergeable<T> toAdd) {
+		for (Mergeable<T> element : elements) {
 			if (element.canMerge(toAdd)) {
 				return element;
 			}
@@ -50,13 +55,18 @@ final class Drawing {
 				.collect(Collectors.toSet());
 	}
 
+	public Set<Circle> getCircles() {
+		return new HashSet<>(circles);
+	}
+
 	@Override
 	public int hashCode() {
 		int prime = 31;
 		int result = 1;
 		
-		result = prime * result + getLines().hashCode();
-		result = prime * result + getArcs().hashCode();
+		result = prime * result + lines.hashCode();
+		result = prime * result + arcs.hashCode();
+		result = prime * result + circles.hashCode();
 		
 		return result;
 	}
@@ -72,11 +82,11 @@ final class Drawing {
 		}
 		
 		Drawing other = (Drawing) obj;
-		return getLines().equals(other.getLines()) && getArcs().equals(other.getArcs());
+		return lines.equals(other.lines) && arcs.equals(other.arcs) && circles.equals(other.circles);
 	}
 
 	@Override
 	public String toString() {
-		return "Drawing [lines=" + getLines() + ", arcs=" + getArcs() + "]";
+		return "Drawing [lines=" + lines + ", arcs=" + arcs + ", circles=" + circles + "]";
 	}
 }

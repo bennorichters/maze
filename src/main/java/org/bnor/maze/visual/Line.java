@@ -2,7 +2,7 @@ package org.bnor.maze.visual;
 
 import org.bnor.euler.Fraction;
 
-final class Line implements DrawElement<Line> {
+final class Line implements Mergeable<Line> {
 	
 	private static final Fraction ANGLE_360 = Fraction.valueOf(360);
 	
@@ -38,13 +38,13 @@ final class Line implements DrawElement<Line> {
 	}
 	
 	@Override
-	public boolean canMerge(DrawElement<Line> object) {
+	public boolean canMerge(Mergeable<Line> object) {
 		Line other = (Line) object;
 		return (isOn(other.from) || other.isOn(from));
 	}
 	
 	@Override
-	public Line merge(DrawElement<Line> object) {
+	public Line merge(Mergeable<Line> object) {
 		if (!canMerge(object)) {
 			throw new IllegalArgumentException("this cannot be merged with other");
 		}

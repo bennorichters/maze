@@ -2,7 +2,7 @@ package org.bnor.maze.visual;
 
 import org.bnor.euler.Fraction;
 
-final class Arc implements DrawElement<Arc> {
+final class Arc implements Mergeable<Arc> {
 	
 	private static final Fraction ANGLE_360 = Fraction.valueOf(360);
 
@@ -68,13 +68,13 @@ final class Arc implements DrawElement<Arc> {
 	}
 	
 	@Override
-	public boolean canMerge(DrawElement<Arc> obj) {
+	public boolean canMerge(Mergeable<Arc> obj) {
 		Arc other = (Arc) obj;
 		return isOn(other.getFrom()) || other.isOn(getFrom());
 	}
 	
 	@Override
-	public Arc merge(DrawElement<Arc> object) {
+	public Arc merge(Mergeable<Arc> object) {
 		if (isFullCircle()) {
 			return this;
 		}
