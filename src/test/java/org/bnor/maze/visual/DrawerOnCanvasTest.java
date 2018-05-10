@@ -13,7 +13,7 @@ import org.bnor.maze.MazeSolver;
 import org.junit.Test;
 
 @SuppressWarnings("static-method")
-public class DrawerTest {
+public class DrawerOnCanvasTest {
 
 	@Test
 	public void drawMazes() {
