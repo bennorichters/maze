@@ -29,7 +29,7 @@ public final class App {
 		Maze maze = new MazeFactory(circles).createClosedOuter();
 		System.out.println("Maze created");
 		
-//		System.out.println(MazeJson.serialize(maze));
+		System.out.println(MazeJson.serialize(maze));
 
 		BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 
