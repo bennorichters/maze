@@ -65,10 +65,12 @@ final class Line implements Mergeable<Line> {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		int prime = 31;
 		int result = 1;
+		
 		result = prime * result + endRadius;
-		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		result = prime * result + from.hashCode();
+		
 		return result;
 	}
 

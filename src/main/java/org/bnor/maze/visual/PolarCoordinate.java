@@ -41,10 +41,12 @@ final class PolarCoordinate {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		int prime = 31;
 		int result = 1;
+		
 		result = prime * result + radius;
 		result = prime * result + angle.hashCode();
+		
 		return result;
 	}
 
