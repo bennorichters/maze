@@ -65,7 +65,7 @@ public class DrawerTest {
 
 		@Override
 		public void circle(PolarCoordinate center, int diameter) {
-			throw new IllegalStateException("just drawing a maze");
+			drawing.addCircle(Circle.create(center, diameter));
 		}
 
 		@Override

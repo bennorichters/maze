@@ -63,7 +63,7 @@ public class DrawingTest {
 		return Arc.create(PolarCoordinate.create(radius, Fraction.valueOf(startAngle)), Fraction.valueOf(span));
 	}
 	
-	private static Circle circle(int radiusCenter, int angleCenter, int radius) {
-		return Circle.create(PolarCoordinate.create(radiusCenter, Fraction.valueOf(angleCenter)), radius);
+	private static Circle circle(int radiusCenter, int angleCenter, int diameter) {
+		return Circle.create(PolarCoordinate.create(radiusCenter, Fraction.valueOf(angleCenter)), diameter);
 	}
 }

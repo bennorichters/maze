@@ -3,31 +3,31 @@ package org.bnor.maze.visual;
 final class Circle {
 
 	private final PolarCoordinate center;
-	private final int radius;
+	private final int diameter;
 
-	private Circle(PolarCoordinate center, int radius) {
+	private Circle(PolarCoordinate center, int diameter) {
 		if (center == null) {
 			throw new NullPointerException("center");
 		}
 		
-		if (radius <= 0) {
-			throw new IllegalArgumentException("radius should be bigger than zero. radius: " + radius);
+		if (diameter <= 0) {
+			throw new IllegalArgumentException("diameter should be bigger than zero. diameter: " + diameter);
 		}
 		
 		this.center = center;
-		this.radius = radius;
+		this.diameter = diameter;
 	}
 	
-	static Circle create(PolarCoordinate center, int radius) {
-		return new Circle(center, radius);
+	static Circle create(PolarCoordinate center, int diameter) {
+		return new Circle(center, diameter);
 	}
 
 	PolarCoordinate getCenter() {
 		return center;
 	}
 
-	int getRadius() {
-		return radius;
+	int getDiameter() {
+		return diameter;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ final class Circle {
 		int result = 1;
 		
 		result = prime * result + center.hashCode();
-		result = prime * result + radius;
+		result = prime * result + diameter;
 		
 		return result;
 	}
@@ -52,11 +52,11 @@ final class Circle {
 		}
 		
 		Circle other = (Circle) obj;
-		return radius == other.radius && center.equals(other.center);
+		return diameter == other.diameter && center.equals(other.center);
 	}
 
 	@Override
 	public String toString() {
-		return "Circle [center=" + center + ", radius=" + radius + "]";
+		return "Circle [center=" + center + ", diameter=" + diameter + "]";
 	}
 }
