@@ -23,14 +23,14 @@ public final class App {
 	}
 
 	private static void go() {
-		int circles = 40;
+		int circles = 5;
 		int distance = 12;
 		int size = 2 * circles * distance + 10;
 
 		Maze maze = new MazeFactory(circles).createClosedOuter();
 		System.out.println("Maze created");
 		
-		// System.out.println(MazeJson.serialize(maze));
+		 System.out.println(MazeJson.serialize(maze));
 
 		BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 

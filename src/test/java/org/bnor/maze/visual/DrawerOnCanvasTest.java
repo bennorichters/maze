@@ -2,6 +2,8 @@ package org.bnor.maze.visual;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -15,10 +17,20 @@ import org.junit.Test;
 @SuppressWarnings("static-method")
 public class DrawerOnCanvasTest {
 
+	private final static String[] MAZE_RESOURCES = {
+			"maze_003_1.json",
+			"maze_004_1.json",
+			"maze_005_1.json",
+			"maze_005_2.json",
+			"maze_040_1.json"
+	};
+
 	@Test
-	public void drawMazes() {
-		drawMazeForResource("maze_3_1.json");
-		drawMazeForResource("maze_40_1.json");
+	public void drawMazesAndPaths() {
+		for (String resource : MAZE_RESOURCES) {
+			drawMazeForResource(resource);
+			drawPathForResource(resource);
+		}
 	}
 
 	private void drawMazeForResource(String resource) {
@@ -27,38 +39,35 @@ public class DrawerOnCanvasTest {
 		referenceEqualsActual(s -> s.drawMaze(maze));
 	}
 
-	@Test
-	public void drawPaths() {
-		drawPathForResource("maze_3_1.json");
-		drawPathForResource("maze_40_1.json");
-	}
-
 	private void drawPathForResource(String resource) {
 		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
 		List<CircleCoordinate> path = new MazeSolver(maze).maxPaths().iterator().next();
-		
+
 		referenceEqualsActual(s -> s.drawPath(path));
+
+		List<CircleCoordinate> reversed = new ArrayList<>(path);
+		Collections.reverse(reversed);
+		referenceEqualsActual(s -> s.drawPath(reversed));
 	}
 
 	@Test
 	public void drawCircles() {
-		CircleCoordinate center = CircleCoordinate.create(4, 2);
-		
-		referenceEqualsActual(s -> s.drawDotOnPath(center));
+		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(4, 2)));
+		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(0, 0)));
 	}
-	
+
 	private void referenceEqualsActual(Consumer<Drawer> consumer) {
 		Drawing drawingReference = new Drawing();
-		Drawer  drawerReference = new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference));
+		Drawer drawerReference = new OldAndUglyButWorkingReferenceDrawer(25, new DrawingMaker(drawingReference));
 		consumer.accept(drawerReference);
-		
+
 		Drawing drawingActual = new Drawing();
-		Drawer  drawerActual = new DrawerOnCanvas(25, new DrawingMaker(drawingActual));
+		Drawer drawerActual = new DrawerOnCanvas(25, new DrawingMaker(drawingActual));
 		consumer.accept(drawerActual);
-		
+
 		assertEquals(drawingReference, drawingActual);
 	}
-	
+
 	private static final class DrawingMaker implements Canvas {
 
 		final Drawing drawing;
