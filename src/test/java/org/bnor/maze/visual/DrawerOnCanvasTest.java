@@ -28,19 +28,18 @@ public class DrawerOnCanvasTest {
 	@Test
 	public void drawMazesAndPaths() {
 		for (String resource : MAZE_RESOURCES) {
-			drawMazeForResource(resource);
-			drawPathForResource(resource);
+			Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
+
+			drawMaze(maze);
+			drawLongestPath(maze);
 		}
 	}
 
-	private void drawMazeForResource(String resource) {
-		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
-
+	private void drawMaze(Maze maze) {
 		referenceEqualsActual(s -> s.drawMaze(maze));
 	}
 
-	private void drawPathForResource(String resource) {
-		Maze maze = MazeJson.deserialize(MazeJsonReader.read(resource));
+	private void drawLongestPath(Maze maze) {
 		List<CircleCoordinate> path = new MazeSolver(maze).maxPaths().iterator().next();
 
 		referenceEqualsActual(s -> s.drawPath(path));
@@ -52,8 +51,8 @@ public class DrawerOnCanvasTest {
 
 	@Test
 	public void drawCircles() {
-		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(4, 2)));
 		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(0, 0)));
+		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(4, 2)));
 	}
 
 	private void referenceEqualsActual(Consumer<Drawer> consumer) {

@@ -108,8 +108,6 @@ public final class DrawerOnCanvas implements Drawer {
 			Fraction halfStep = CircleCoordinate.calcAngleStep(next.getCircle()).divide(Fraction.valueOf(2));
 			Fraction to = next.getAngle().add(halfStep);
 
-			System.out.println(fromAngle.compareTo(to) < 0);
-			
 			ArcDirection arcDirection = fromAngle.compareTo(to) < 0 ? ArcDirection.CLOCKWISE : ArcDirection.COUNTERCLOCKWISE;
 
 			arcPath(next.getCircle(), fromAngle, to, arcDirection);
