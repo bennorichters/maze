@@ -3,6 +3,7 @@ package org.bnor.maze.visual;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,9 +51,25 @@ public class DrawerOnCanvasTest {
 	}
 
 	@Test
+	public void drawPathInSingleCircle() {
+		List<CircleCoordinate> path = Arrays.asList(
+				c(50, 4), 
+				c(50, 5), 
+				c(50, 6), 
+				c(50, 7), 
+				c(50, 8));
+		
+		Drawing drawing = new Drawing();
+		Drawer drawer = new DrawerOnCanvas(25, new DrawingMaker(drawing));
+		drawer.drawPath(path);
+		
+		// TODO: Test with expected drawing
+	}
+
+	@Test
 	public void drawCircles() {
-		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(0, 0)));
-		referenceEqualsActual(s -> s.drawDotOnPath(CircleCoordinate.create(4, 2)));
+		referenceEqualsActual(s -> s.drawDotOnPath(c(0, 0)));
+		referenceEqualsActual(s -> s.drawDotOnPath(c(4, 2)));
 	}
 
 	private void referenceEqualsActual(Consumer<Drawer> consumer) {
@@ -65,6 +82,10 @@ public class DrawerOnCanvasTest {
 		consumer.accept(drawerActual);
 
 		assertEquals(drawingReference, drawingActual);
+	}
+
+	private CircleCoordinate c(int circle, int arcIndex) {
+		return CircleCoordinate.create(circle, arcIndex);
 	}
 
 	private static final class DrawingMaker implements Canvas {
