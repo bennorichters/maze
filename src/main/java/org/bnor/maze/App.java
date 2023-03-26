@@ -18,72 +18,73 @@ import org.bnor.maze.visual.GraphicsCanvas;
 
 public final class App {
 
-	public static void main(String[] args) {
-		go();
-	}
+  public static void main(String[] args) {
+    go();
+  }
 
-	private static void go() {
-		int circles = 5;
-		int distance = 12;
-		int size = 2 * circles * distance + 10;
+  private static void go() {
+    int circles = 250;
+    int distance = 12;
+    int size = 2 * circles * distance + 10;
 
-		Maze maze = new MazeFactory(circles).createClosedOuter();
-		System.out.println("Maze created");
-		
-		 System.out.println(MazeJson.serialize(maze));
+    Maze maze = new MazeFactory(circles).createClosedOuter();
+    System.out.println("Maze created");
 
-		BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+    System.out.println(MazeJson.serialize(maze));
 
-		Graphics2D graphics = image.createGraphics();
+    BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 
-		graphics.setPaint(Color.WHITE);
-		graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+    Graphics2D graphics = image.createGraphics();
 
-		graphics.setPaint(Color.BLACK);
+    graphics.setPaint(Color.WHITE);
+    graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
 
-		Drawer drawer = new DrawerOnCanvas(distance, new GraphicsCanvas(size / 2, graphics));
-		drawer.drawMaze(maze);
-		System.out.println("Draw maze finished");
+    graphics.setPaint(Color.BLACK);
 
+    Drawer drawer = new DrawerOnCanvas(distance, new GraphicsCanvas(size / 2, graphics));
+    drawer.drawMaze(maze);
+    System.out.println("Draw maze finished");
 
-		Set<List<CircleCoordinate>> paths = new MazeSolver(maze).maxPaths();
-		System.out.println("Max paths calculated.");
-		
-		drawAllPaths(maze, graphics, drawer, paths.iterator(), distance);
-		drawEndPoints(graphics, paths.iterator().next(), drawer);
-		
-		System.out.println("Draw paths finished");
+    Set<List<CircleCoordinate>> paths = new MazeSolver(maze).maxPaths();
+    System.out.println("Max paths calculated.");
 
-		try {
-			ImageIO.write(image, "PNG", new File("d:\\temp\\maze.png"));
-		} catch (IOException ie) {
-			ie.printStackTrace();
-		}
-	}
+    drawAllPaths(maze, graphics, drawer, paths.iterator(), distance);
+    drawEndPoints(graphics, paths.iterator().next(), drawer);
 
-	private static void drawEndPoints(Graphics2D graphics, List<CircleCoordinate> path, Drawer drawer) {
-		graphics.setColor(Color.BLUE);
-		
-		CircleCoordinate start = path.get(0);
-		CircleCoordinate end = path.get(path.size() - 1);
-		
-		drawer.drawDotOnPath(start);
-		drawer.drawDotOnPath(end);
-	}
+    System.out.println("Draw paths finished");
 
-	private static void drawAllPaths(Maze maze, Graphics2D graphics, Drawer drawer, Iterator<List<CircleCoordinate>> paths, int distance) {
-		graphics.setStroke(new BasicStroke(distance / 2));
-		Iterator<Color> colors = Set.of(Color.RED, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK, Color.MAGENTA).iterator();
+    try {
+      ImageIO.write(image, "PNG", new File("./img.png"));
+    } catch (IOException ie) {
+      ie.printStackTrace();
+    }
+  }
 
-		while (paths.hasNext() && colors.hasNext()) {
-			List<CircleCoordinate> path = paths.next();
-			Color color = colors.next();
+  private static void drawEndPoints(Graphics2D graphics, List<CircleCoordinate> path, Drawer drawer) {
+    graphics.setColor(Color.BLUE);
 
-			graphics.setPaint(color);
-			CircleCoordinate start = path.get(0);
-			CircleCoordinate end = path.get(path.size() - 1);
+    CircleCoordinate start = path.get(0);
+    CircleCoordinate end = path.get(path.size() - 1);
 
-			drawer.drawPath(new MazeSolver(maze).solve(start, end));
-		}
-	}
+    drawer.drawDotOnPath(start);
+    drawer.drawDotOnPath(end);
+  }
+
+  private static void drawAllPaths(Maze maze, Graphics2D graphics, Drawer drawer,
+      Iterator<List<CircleCoordinate>> paths, int distance) {
+    graphics.setStroke(new BasicStroke(distance / 2));
+    Iterator<Color> colors = Set.of(Color.RED, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK, Color.MAGENTA)
+        .iterator();
+
+    while (paths.hasNext() && colors.hasNext()) {
+      List<CircleCoordinate> path = paths.next();
+      Color color = colors.next();
+
+      graphics.setPaint(color);
+      CircleCoordinate start = path.get(0);
+      CircleCoordinate end = path.get(path.size() - 1);
+
+      drawer.drawPath(new MazeSolver(maze).solve(start, end));
+    }
+  }
 }

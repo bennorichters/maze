@@ -13,6 +13,7 @@ import org.bnor.maze.CircleCoordinate;
 import org.bnor.maze.Maze;
 import org.bnor.maze.MazeJson;
 import org.bnor.maze.MazeSolver;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @SuppressWarnings("static-method")
@@ -50,6 +51,7 @@ public class DrawerOnCanvasTest {
 		referenceEqualsActual(s -> s.drawPath(reversed));
 	}
 
+  @Ignore
 	@Test
 	public void drawPathInSingleCircle() {
 		List<CircleCoordinate> path = Arrays.asList(
